@@ -1,5 +1,6 @@
 import { Phone, MapPin, Send } from 'lucide-react'
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', phone: '', message: '' })
@@ -33,7 +34,24 @@ export default function Contact() {
         </div>
 
         <div className="lg:col-span-6">
-          <form onSubmit={handleSubmit} className="rounded-3xl border border-white/10 bg-white/5 p-6 sm:p-8 backdrop-blur-xl">
+          <motion.form
+            onSubmit={handleSubmit}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="rounded-3xl border border-white/10 bg-white/5 p-6 sm:p-8 backdrop-blur-xl relative overflow-hidden"
+          >
+            {/* Form shine */}
+            <motion.div
+              aria-hidden
+              className="absolute -inset-1 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+              initial={{ x: '-120%' }}
+              whileInView={{ x: ['-120%', '120%'] }}
+              viewport={{ once: true }}
+              transition={{ duration: 2.1, ease: 'easeInOut', delay: 0.5 }}
+              style={{ rotate: 8 }}
+            />
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sky-200/80 text-sm mb-2">Name</label>
@@ -53,7 +71,7 @@ export default function Contact() {
               Send Message
             </button>
             {sent && <p className="mt-3 text-sky-200/90">Thanks! We’ll contact you shortly.</p>}
-          </form>
+          </motion.form>
         </div>
       </div>
 

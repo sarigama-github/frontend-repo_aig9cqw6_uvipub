@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 
 const phrases = [
   { word: 'Hallo', en: 'Hello (German)' },
@@ -14,6 +14,11 @@ export default function PaperPenAnimation() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-20% 0px -20% 0px' })
 
+  // Parallax subtlety
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
+  const tilt = useTransform(scrollYProgress, [0, 1], [4, -4])
+  const yParallax = useTransform(scrollYProgress, [0, 1], [10, -10])
+
   return (
     <section id="languages-anim" className="relative py-28">
       <div className="absolute inset-0 bg-[radial-gradient(70rem_50rem_at_50%_0%,rgba(59,130,246,0.10),transparent_60%)]" />
@@ -26,8 +31,9 @@ export default function PaperPenAnimation() {
         <div ref={ref} className="relative mx-auto max-w-3xl">
           {/* Paper */}
           <motion.div
-            initial={{ clipPath: 'inset(100% 0% 0% 0%)', rotateX: 15, opacity: 0.7 }}
-            animate={inView ? { clipPath: 'inset(0% 0% 0% 0%)', rotateX: 0, opacity: 1 } : {}}
+            style={{ rotateX: tilt, y: yParallax }}
+            initial={{ clipPath: 'inset(100% 0% 0% 0%)', opacity: 0.7 }}
+            animate={inView ? { clipPath: 'inset(0% 0% 0% 0%)', opacity: 1 } : {}}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             className="relative rounded-2xl bg-gradient-to-b from-white to-white/90 shadow-[0_40px_120px_rgba(0,0,0,0.45)] border border-slate-200 overflow-hidden"
           >
@@ -44,6 +50,13 @@ export default function PaperPenAnimation() {
                   >
                     <span className="font-semibold text-slate-800 text-xl">{p.word}</span>
                   </motion.div>
+                  {/* Underline write effect */}
+                  <motion.span
+                    initial={{ scaleX: 0, opacity: 0 }}
+                    animate={inView ? { scaleX: 1, opacity: 1 } : {}}
+                    transition={{ duration: 0.6, delay: 0.65 + i * 0.35, ease: 'easeOut' }}
+                    className="origin-left block h-[2px] bg-gradient-to-r from-cyan-400 to-sky-500"
+                  />
                   {/* English translation */}
                   <motion.div
                     initial={{ opacity: 0, y: 6 }}
@@ -84,6 +97,20 @@ export default function PaperPenAnimation() {
                   </filter>
                 </defs>
               </svg>
+            </motion.div>
+
+            {/* Paper shine sweep */}
+            <motion.div
+              aria-hidden
+              className="pointer-events-none absolute inset-0"
+            >
+              <motion.div
+                className="absolute -inset-1 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+                initial={{ x: '-120%' }}
+                animate={inView ? { x: ['-120%', '120%'] } : {}}
+                transition={{ duration: 2.2, ease: 'easeInOut', delay: 0.5 }}
+                style={{ rotate: 8 }}
+              />
             </motion.div>
           </motion.div>
         </div>

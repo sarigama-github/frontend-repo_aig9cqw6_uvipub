@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 const courses = [
   {
@@ -41,15 +41,24 @@ export default function Courses() {
           {courses.map((c, i) => (
             <motion.div
               key={c.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 24, scale: 0.98 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, amount: 0.4 }}
-              transition={{ duration: 0.5, delay: i * 0.05 }}
+              transition={{ duration: 0.55, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
               className="group relative rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-md overflow-hidden hover:border-sky-400/40 transition"
             >
               <div className="absolute -inset-px opacity-0 group-hover:opacity-100 transition pointer-events-none bg-[radial-gradient(40rem_20rem_at_0%_0%,rgba(56,189,248,0.15),transparent_60%)]" />
               <h3 className="text-xl font-semibold text-white">{c.name}</h3>
               <p className="mt-3 text-sky-200/80 text-sm leading-relaxed">{c.desc}</p>
+              {/* Hover glow and lift */}
+              <motion.div
+                aria-hidden
+                className="absolute inset-0"
+                initial={false}
+                whileHover={{ boxShadow: '0 25px 80px rgba(56,189,248,0.15)' }}
+                transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+              />
+              <span className="absolute top-0 right-0 m-4 inline-flex h-2 w-2 rounded-full bg-sky-400/70 group-hover:bg-sky-300" />
             </motion.div>
           ))}
         </div>

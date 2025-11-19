@@ -7,6 +7,15 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" />
       <div className="absolute inset-0 opacity-40 bg-[radial-gradient(60rem_40rem_at_10%_20%,rgba(59,130,246,0.2),transparent_60%),radial-gradient(50rem_30rem_at_100%_0%,rgba(168,85,247,0.15),transparent_60%)]" />
 
+      {/* Animated grid backdrop */}
+      <motion.div
+        aria-hidden
+        className="absolute inset-0 opacity-20"
+        style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)', backgroundSize: '50px 50px' }}
+        animate={{ backgroundPositionY: [0, 25, 0] }}
+        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+      />
+
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-24">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -57,13 +66,41 @@ export default function Hero() {
               <div className="absolute inset-0 bg-[radial-gradient(80rem_50rem_at_-10%_-20%,rgba(59,130,246,0.15),transparent_60%),radial-gradient(50rem_40rem_at_120%_10%,rgba(168,85,247,0.15),transparent_60%)]" />
               <div className="absolute inset-0 grid place-items-center">
                 <div className="text-center px-6">
-                  <p className="text-sky-200/90">Directed by</p>
-                  <p className="mt-1 text-2xl font-semibold text-white">Zaki Hidayat</p>
-                  <p className="mt-6 text-sm text-sky-300/80 max-w-sm mx-auto">
+                  <motion.p
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className="text-sky-200/90"
+                  >
+                    Directed by
+                  </motion.p>
+                  <motion.p
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.55 }}
+                    className="mt-1 text-2xl font-semibold text-white"
+                  >
+                    Zaki Hidayat
+                  </motion.p>
+                  <motion.p
+                    initial={{ opacity: 0, y: 14 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.7 }}
+                    className="mt-6 text-sm text-sky-300/80 max-w-sm mx-auto"
+                  >
                     A trusted, modern hub for multilingual education in the heart of Hazara Town.
-                  </p>
+                  </motion.p>
                 </div>
               </div>
+
+              {/* Subtle shine sweep */}
+              <motion.div
+                aria-hidden
+                className="absolute -inset-1 bg-gradient-to-r from-transparent via-white/20 to-transparent rotate-6"
+                initial={{ x: '-120%' }}
+                animate={{ x: ['-120%', '120%'] }}
+                transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut', repeatDelay: 3 }}
+              />
             </motion.div>
           </div>
         </motion.div>
